@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/* Warna diambil dari materi Manut'o sendiri: kartu member hitam-abu, pintu dan judul pricelist hijau tua. */
+@theme {
+  --color-paper: #f4f2ed;
+  --color-surface: #e9e6df;
+  --color-ink: #151515;
+  --color-muted: #5c5a55;
+  --color-line: #d3cfc6;
+  --color-brand: #1f5136;
+  --color-brand-dark: #163b27;
+  --color-brand-light: #8fbf9f;
+  --font-display: var(--font-oswald), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-instrument), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-8 xl:px-0;
+  }
+  .h-display {
+    @apply font-display font-semibold uppercase leading-[0.95] tracking-[-0.01em];
+  }
+  .h-section {
+    @apply font-display text-[32px] font-semibold uppercase leading-[1.05] sm:text-[44px];
+  }
+  .label {
+    @apply text-[13px] font-medium uppercase tracking-[0.14em];
+  }
+
+  /* Satu gaya tombol: naik saat hover, tertekan saat diklik. */
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 px-6 text-[15px] font-semibold uppercase tracking-[0.06em] transition duration-200;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+  .btn-primary {
+    @apply bg-brand text-white hover:bg-brand-dark;
+  }
+  .btn-ink {
+    @apply bg-ink text-paper hover:bg-black;
+  }
+  .btn-line {
+    @apply border border-ink text-ink hover:bg-ink hover:text-paper;
+  }
+
+  /* Garis bawah yang tergambar saat hover. */
+  .link-draw {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 0.3s ease;
+  }
+  .link-draw:hover,
+  .link-draw[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+
+  /* Foto yang menjadi link: kartunya naik 2px, fotonya zoom halus di dalam bingkai. */
+  .card-link {
+    @apply block transition-transform duration-300;
+  }
+  .card-link:hover {
+    transform: translateY(-2px);
+  }
+  .card-link img {
+    transition: transform 0.6s ease;
+  }
+  .card-link:hover img {
+    transform: scale(1.03);
+  }
+
+  /* Foto barber hitam-putih kontras tinggi, kembali berwarna saat hover. */
+  .photo-mono img {
+    filter: grayscale(1) contrast(1.15);
+    transition: filter 0.5s ease, transform 0.6s ease;
+  }
+  .card-link:hover.photo-mono img,
+  .photo-mono:hover img {
+    filter: none;
+  }
+}
+
+/* Teks berjalan seperti di Don Barber. Berhenti saat hover dan untuk pengguna yang memilih reduced motion. */
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  animation: ticker 40s linear infinite;
+}
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+/* Hero masuk sekali saat halaman dibuka. */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.enter {
+  animation: enter 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.enter-2 {
+  animation-delay: 0.12s;
+}
+.enter-3 {
+  animation-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
