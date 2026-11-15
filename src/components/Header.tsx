@@ -8,8 +8,8 @@ import { waLink } from "@/data/site";
 
 export function Wordmark() {
   return (
-    <span className="font-display text-[22px] font-bold uppercase leading-none tracking-[0.02em]">
-      Manut&rsquo;o<span className="ml-1.5 text-[11px] font-medium tracking-[0.2em] text-muted">Barbershop</span>
+    <span className="font-display text-[25px] font-bold uppercase leading-none tracking-[-0.01em]">
+      Manut&rsquo;o<span className="ml-2 font-sans text-[11px] font-semibold tracking-[0.18em] text-muted">Barbershop</span>
     </span>
   );
 }
@@ -20,6 +20,10 @@ export default function Header() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (!open) return;
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
   }, [open]);
 
   return (
@@ -29,7 +33,7 @@ export default function Header() {
           <Wordmark />
         </Link>
         <nav aria-label="Menu utama" className="hidden lg:block">
-          <ul className="flex gap-7 text-[15px] font-medium">
+          <ul className="flex gap-7 text-[15px] font-semibold">
             {navLinks.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="link-draw py-2" aria-current={path === l.href ? "page" : undefined}>

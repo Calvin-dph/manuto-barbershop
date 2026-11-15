@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
-/* Warna diambil dari materi Manut'o sendiri: kartu member hitam-abu, pintu dan judul pricelist hijau tua. */
+/* Semua diambil dari materi Manut'o sendiri: poster daftar harga (huruf geometris tebal, judul kategori serif hijau),
+   kartu member hitam, dan lampu barber pole merah-putih-biru di papan nama. */
 @theme {
-  --color-paper: #f4f2ed;
-  --color-surface: #e9e6df;
-  --color-ink: #151515;
-  --color-muted: #5c5a55;
-  --color-line: #d3cfc6;
-  --color-brand: #1f5136;
-  --color-brand-dark: #163b27;
+  --color-paper: #ffffff;
+  --color-surface: #f2f2ef;
+  --color-ink: #121212;
+  --color-muted: #5b5b57;
+  --color-line: #dcdcd6;
+  --color-brand: #0f4d33;
+  --color-brand-dark: #0a3a26;
   --color-brand-light: #8fbf9f;
-  --font-display: var(--font-oswald), "Arial Narrow", sans-serif;
-  --font-sans: var(--font-instrument), system-ui, sans-serif;
+  --color-pole-red: #c8102e;
+  --color-pole-blue: #1d4e9e;
+  --font-display: var(--font-spartan), "Arial Black", sans-serif;
+  --font-sans: var(--font-albert), system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
 }
 
 html {
@@ -21,7 +25,7 @@ html {
 body {
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-sans);
+  font-size: 17px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -35,24 +39,30 @@ body {
     @apply mx-auto w-full max-w-[1200px] px-4 sm:px-8 xl:px-0;
   }
   .h-display {
-    @apply font-display font-semibold uppercase leading-[0.95] tracking-[-0.01em];
+    @apply font-display font-bold leading-[0.95] tracking-[-0.02em];
   }
   .h-section {
-    @apply font-display text-[32px] font-semibold uppercase leading-[1.05] sm:text-[44px];
+    @apply font-display text-[32px] font-bold leading-[1.05] tracking-[-0.015em] sm:text-[44px];
   }
+  /* Huruf kapital renggang seperti "DAFTAR HARGA" di poster. */
   .label {
-    @apply text-[13px] font-medium uppercase tracking-[0.14em];
+    @apply text-[13px] font-semibold uppercase tracking-[0.14em];
+  }
+  /* Garis barber pole dari papan nama; dipakai di atas halaman dan di atas footer saja. */
+  .pole {
+    height: 6px;
+    background: repeating-linear-gradient(
+      135deg,
+      var(--color-pole-red) 0 12px,
+      #fff 12px 24px,
+      var(--color-pole-blue) 24px 36px,
+      #fff 36px 48px
+    );
   }
 
-  /* Satu gaya tombol: naik saat hover, tertekan saat diklik. */
+  /* Satu gaya tombol: hanya warna yang berubah. */
   .btn {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 px-6 text-[15px] font-semibold uppercase tracking-[0.06em] transition duration-200;
-  }
-  .btn:hover {
-    transform: translateY(-2px);
-  }
-  .btn:active {
-    transform: translateY(0) scale(0.98);
+    @apply inline-flex min-h-12 items-center justify-center gap-2 px-6 text-[16px] font-semibold transition-colors duration-200;
   }
   .btn-primary {
     @apply bg-brand text-white hover:bg-brand-dark;
@@ -74,12 +84,9 @@ body {
     background-size: 100% 1px;
   }
 
-  /* Foto yang menjadi link: kartunya naik 2px, fotonya zoom halus di dalam bingkai. */
+  /* Foto yang menjadi link: fotonya zoom halus di dalam bingkai. */
   .card-link {
-    @apply block transition-transform duration-300;
-  }
-  .card-link:hover {
-    transform: translateY(-2px);
+    @apply block;
   }
   .card-link img {
     transition: transform 0.6s ease;
@@ -99,34 +106,20 @@ body {
   }
 }
 
-/* Teks berjalan seperti di Don Barber. Berhenti saat hover dan untuk pengguna yang memilih reduced motion. */
-@keyframes ticker {
-  to {
-    transform: translateX(-50%);
-  }
-}
-.ticker-track {
-  animation: ticker 40s linear infinite;
-}
-.ticker:hover .ticker-track {
-  animation-play-state: paused;
+/* Halaman di belakang lightbox tidak ikut tergulir. */
+html:has(dialog[open]) {
+  overflow: hidden;
 }
 
-/* Hero masuk sekali saat halaman dibuka. */
-@keyframes enter {
+/* Foto di lightbox galeri muncul halus setiap kali berganti. */
+@keyframes lightbox-in {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    scale: 0.98;
   }
 }
-.enter {
-  animation: enter 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-.enter-2 {
-  animation-delay: 0.12s;
-}
-.enter-3 {
-  animation-delay: 0.24s;
+.lightbox-in {
+  animation: lightbox-in 0.25s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

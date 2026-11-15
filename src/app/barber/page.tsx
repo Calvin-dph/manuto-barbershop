@@ -11,7 +11,7 @@ export default function Barber() {
   return (
     <section className="wrap pb-20 pt-14 md:pb-28 md:pt-20">
       <SectionHead as="h1" title="Barber kami" line="Pilih barber, lalu namanya otomatis masuk ke pesan booking WhatsApp." />
-      <BarberGrid />
+      <div className="max-w-[880px]"><BarberGrid /></div>
     </section>
   );
 }

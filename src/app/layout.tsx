@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, Oswald } from "next/font/google";
+import { Albert_Sans, League_Spartan, Newsreader } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBar from "@/components/MobileBar";
 import { settings } from "@/data/site";
 import "./globals.css";
 
-const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
-const instrument = Instrument_Sans({ subsets: ["latin"], variable: "--font-instrument" });
+const spartan = League_Spartan({ subsets: ["latin"], variable: "--font-spartan" });
+const albert = Albert_Sans({ subsets: ["latin"], variable: "--font-albert" });
+const newsreader = Newsreader({ subsets: ["latin"], weight: "500", variable: "--font-newsreader" });
 
 // shortcut: domain belum ada, ganti saat domain asli dibeli.
 const siteUrl = "https://manutobarbershop.com";
@@ -49,11 +50,12 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id" className={`${oswald.variable} ${instrument.variable}`}>
+    <html lang="id" className={`${spartan.variable} ${albert.variable} ${newsreader.variable}`}>
       <body className="min-h-dvh">
         <a href="#isi" className="sr-only z-50 bg-ink px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
           Langsung ke isi
         </a>
+        <div aria-hidden className="pole" />
         <Header />
         <main id="isi">{children}</main>
         <Footer />

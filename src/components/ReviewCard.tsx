@@ -11,10 +11,10 @@ export function Stars({ n, className = "" }: { n: number; className?: string }) 
 
 export default function ReviewCard({ review }: { review: Review }) {
   return (
-    <figure className="flex h-full flex-col border border-line bg-paper p-6 sm:p-8">
+    <figure className="flex h-full flex-col border-t border-ink pt-5">
       <Stars n={review.rating} />
-      <blockquote className="mt-4 flex-1 text-[17px] leading-7">{review.teks}</blockquote>
-      <figcaption className="mt-6 flex items-baseline justify-between gap-4 text-[15px]">
+      <blockquote className="mt-3 flex-1 text-[17px] leading-7">{review.teks}</blockquote>
+      <figcaption className="mt-5 flex items-baseline justify-between gap-4 text-[15px]">
         <span className="font-semibold">{review.nama}</span>
         <span className="text-muted">{review.waktu}</span>
       </figcaption>

@@ -13,7 +13,7 @@ export default function Layanan() {
   return (
     <>
       <section className="wrap pb-16 pt-14 md:pt-20">
-        <SectionHead as="h1" title="Layanan & harga" line="Klik salah satu layanan untuk langsung booking lewat WhatsApp." />
+        <SectionHead as="h1" title="Layanan & harga" line="Pilih layanan untuk langsung booking lewat WhatsApp." />
         <PriceList />
         <p className="mt-10 text-[16px] text-muted">
           Member Manut&rsquo;o dapat diskon 10% untuk semua perawatan dan 5% untuk produk.{" "}
