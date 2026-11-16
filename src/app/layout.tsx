@@ -57,8 +57,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <div aria-hidden className="pole" />
         <Header />
-        <main id="isi">{children}</main>
-        <Footer />
+        {/* Dibungkus supaya isi dan footer mengecil bersama saat menu dibuka (lihat Header). */}
+        <div id="halaman">
+          <main id="isi">{children}</main>
+          <Footer />
+        </div>
         <MobileBar />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       </body>

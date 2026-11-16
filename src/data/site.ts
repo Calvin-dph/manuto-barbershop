@@ -83,10 +83,10 @@ export const services: Service[] = [
   s("styling", 5, "Creambath Wanita", 50000),
 ];
 
-// shortcut: nama dan keahlian barber belum diberikan pemilik, ganti saat data asli ada (nanti dari dashboard admin).
+// shortcut: keahlian barber masih isian sementara, ganti saat data asli ada (nanti dari dashboard admin).
 export const barbers: Barber[] = [
-  { id: "b1", nama: "Barber Manut'o", foto: "/photos/barber-1.jpg", keahlian: "Potong rambut pria & fade", aktif: true, urutan: 1 },
-  { id: "b2", nama: "Barber Manut'o", foto: "/photos/barber-2.jpg", keahlian: "Potong rambut & perawatan", aktif: true, urutan: 2 },
+  { id: "b1", nama: "Nanang", foto: "/photos/barber-1.jpg", keahlian: "Potong rambut pria & fade", aktif: true, urutan: 1 },
+  { id: "b2", nama: "Agus", foto: "/photos/barber-2.jpg", keahlian: "Potong rambut & perawatan", aktif: true, urutan: 2 },
 ];
 
 export const member = {

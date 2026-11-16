@@ -1,6 +1,6 @@
 import Image from "next/image";
 import BarberGrid from "@/components/BarberGrid";
-import OpenNow from "@/components/OpenNow";
+import Parallax from "@/components/Parallax";
 import PriceList from "@/components/PriceList";
 import ReviewCard, { Stars } from "@/components/ReviewCard";
 import SectionHead from "@/components/SectionHead";
@@ -9,22 +9,33 @@ import { fasilitas, featuredReviews, member, rupiah, settings, waLink } from "@/
 export default function Home() {
   return (
     <>
-      {/* Hero: foto dibatasi satu kolom supaya tidak ditarik melebihi resolusi aslinya. */}
-      <section className="wrap grid gap-8 pb-14 pt-8 md:grid-cols-12 md:items-center md:gap-10 md:pb-20 md:pt-14">
-        <div className="md:col-span-7">
-          <p className="label text-muted">{settings.tagline} · Ungaran</p>
-          <h1 className="h-display mt-4 text-[clamp(44px,7.2vw,92px)] uppercase">Barbershop di Ungaran</h1>
-          <p className="mt-5 max-w-[34ch] text-[19px] leading-7">
-            Potong rambut pria <strong className="font-bold">{rupiah(25000)}</strong>, tambah keramas {rupiah(30000)}.
+      {/* Hero selayar penuh: foto jadi latar, teks di tengah. Ditarik 65px ke atas supaya berada di balik header transparan; 6px = garis pole. */}
+      <section className="relative isolate -mt-[65px] flex min-h-[calc(100svh-6px)] flex-col items-center justify-end overflow-hidden bg-ink px-4 pb-10 pt-28 text-center text-white md:pb-14">
+        <Image src="/photos/suasana-sore.jpg" alt="Suasana Manut'o Barbershop saat barber melayani pelanggan" fill priority sizes="100vw" className="-z-10 object-cover" />
+        {/* Lapisan gelap supaya teks putih terbaca; bagian bawah memudar ke hitam penuh supaya menyatu dengan bagian perkenalan. */}
+        <div aria-hidden className="absolute inset-0 -z-10 bg-linear-to-b from-ink/60 from-45% to-ink" />
+        {/* Tagline dari bio Instagram Manut'o. */}
+        <h1 className="h-display text-[clamp(40px,9.5vw,152px)] uppercase leading-[0.9]">
+          <span className="sr-only">Manut&rsquo;o Barbershop Ungaran: </span>
+          Gantengin di<br />segala kondisi
+        </h1>
+        <a href={waLink()} target="_blank" rel="noopener" data-hero-action className="btn mt-7 bg-white px-7 font-bold uppercase tracking-[0.02em] text-ink hover:bg-white/85">
+          Booking sekarang
+        </a>
+      </section>
+
+      {/* Perkenalan singkat: satu kalimat besar di latar gelap, langsung di bawah hero. */}
+      <section className="relative flex min-h-[70svh] items-center overflow-hidden bg-ink py-20 text-white">
+        {/* Foto clipper tanpa latar; ujung gagangnya sengaja keluar dari pojok kanan bawah dan bergerak parallax dari arah itu saat di-scroll. Di HP disembunyikan supaya tidak menimpa teks. */}
+        {/* Foto aslinya miring sekitar 39° dari tegak; rotate 11° menjadikannya sekitar 28°. */}
+        <Parallax className="pointer-events-none absolute -right-[6%] top-[11%] hidden h-[115%] md:block">
+          <Image src="/photos/clipper.webp" alt="" width={900} height={1049} sizes="45vw" className="h-full w-auto max-w-none rotate-[11deg] brightness-[.6]" />
+        </Parallax>
+        <div className="wrap relative">
+          <h2 className="label text-white/80">{settings.tagline} · Ungaran</h2>
+          <p className="mt-6 max-w-[21ch] text-[clamp(28px,4.2vw,58px)] leading-[1.15] tracking-[-0.015em]">
+            Barbershop pria di Ungaran. Potong rapi mulai {rupiah(25000)}, buka setiap hari sampai jam 10 malam.
           </p>
-          <p className="mt-3"><OpenNow /></p>
-          <div className="mt-7 flex flex-wrap gap-3" data-hero-action>
-            <a href={waLink()} target="_blank" rel="noopener" className="btn btn-primary">Booking via WhatsApp</a>
-            <a href="#harga" className="btn btn-line">Lihat harga</a>
-          </div>
-        </div>
-        <div className="relative aspect-[4/5] overflow-hidden bg-surface md:col-span-5">
-          <Image src="/photos/barber-bekerja.jpg" alt="Barber Manut'o mengeringkan rambut pelanggan" fill priority sizes="(min-width: 768px) 40vw, 100vw" className="object-cover" />
         </div>
       </section>
 
