@@ -14,13 +14,27 @@
   --color-brand-light: #8fbf9f;
   --color-pole-red: #c8102e;
   --color-pole-blue: #1d4e9e;
-  --font-display: var(--font-spartan), "Arial Black", sans-serif;
+  --font-display: var(--font-geist), "Arial Black", sans-serif;
   --font-sans: var(--font-albert), system-ui, sans-serif;
   --font-serif: var(--font-newsreader), Georgia, serif;
 }
 
 html {
   scroll-behavior: smooth;
+  /* Scrollbar simpel: batang abu-abu tipis, tanpa jalur. */
+  scrollbar-width: thin;
+  scrollbar-color: #6a6a66 transparent;
+}
+/* Chrome/Safari lama yang belum mendukung scrollbar-color. */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #6a6a66;
+  border-radius: 999px;
 }
 
 body {
@@ -92,14 +106,15 @@ body {
   }
   /* Garis barber pole dari papan nama; dipakai di atas halaman dan di atas footer saja. */
   .pole {
-    height: 6px;
-    background: repeating-linear-gradient(
+    --stripes: repeating-linear-gradient(
       135deg,
       var(--color-pole-red) 0 12px,
       #fff 12px 24px,
       var(--color-pole-blue) 24px 36px,
       #fff 36px 48px
     );
+    height: 6px;
+    background: var(--stripes);
   }
 
   /* Satu gaya tombol: hanya warna yang berubah. */
@@ -162,6 +177,51 @@ html:has(dialog[open]) {
 }
 .lightbox-in {
   animation: lightbox-in 0.25s ease;
+}
+
+/* Hero saat halaman dimuat: foto muncul dari gelap sambil sedikit mengecil, lalu judul dan tombol naik perlahan. */
+@keyframes hero-bg {
+  from {
+    opacity: 0;
+    scale: 1.08;
+  }
+}
+/* Garis pole atas terisi dari kiri ke kanan seperti loading bar.
+   Garisnya diam; yang bergerak hanya penutup gelap polos yang menyusut ke kanan (scale, dijalankan GPU).
+   Kalau pola garisnya ikut bergerak, mata menangkapnya patah-patah. */
+@keyframes pole-in {
+  from {
+    scale: 1 1;
+  }
+}
+.pole-load {
+  position: relative;
+  overflow: hidden;
+}
+.pole-load::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink);
+  transform-origin: right;
+  scale: 0 1; /* keadaan akhir; juga yang tampil saat animasi dimatikan (reduced motion) */
+  will-change: scale;
+  animation: pole-in 2.4s cubic-bezier(0.45, 0, 0.2, 1) 0.2s both;
+}
+@keyframes hero-up {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+}
+.hero-bg {
+  animation: hero-bg 2.4s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
+}
+.hero-up {
+  animation: hero-up 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+.hero-up-late {
+  animation-delay: 1.5s;
 }
 
 @media (prefers-reduced-motion: reduce) {

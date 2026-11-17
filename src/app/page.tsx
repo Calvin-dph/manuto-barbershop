@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Image from "next/image";
 import BarberGrid from "@/components/BarberGrid";
 import Parallax from "@/components/Parallax";
@@ -11,15 +12,22 @@ export default function Home() {
     <>
       {/* Hero selayar penuh: foto jadi latar, teks di tengah. Ditarik 65px ke atas supaya berada di balik header transparan; 6px = garis pole. */}
       <section className="relative isolate -mt-[65px] flex min-h-[calc(100svh-6px)] flex-col items-center justify-end overflow-hidden bg-ink px-4 pb-10 pt-28 text-center text-white md:pb-14">
-        <Image src="/photos/suasana-sore.jpg" alt="Suasana Manut'o Barbershop saat barber melayani pelanggan" fill priority sizes="100vw" className="-z-10 object-cover" />
+        <Image src="/photos/suasana-sore.jpg" alt="Suasana Manut'o Barbershop saat barber melayani pelanggan" fill priority sizes="100vw" className="hero-bg -z-10 object-cover" />
         {/* Lapisan gelap supaya teks putih terbaca; bagian bawah memudar ke hitam penuh supaya menyatu dengan bagian perkenalan. */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-linear-to-b from-ink/60 from-45% to-ink" />
         {/* Tagline dari bio Instagram Manut'o. */}
         <h1 className="h-display text-[clamp(40px,9.5vw,152px)] uppercase leading-[0.9]">
           <span className="sr-only">Manut&rsquo;o Barbershop Ungaran: </span>
-          Gantengin di<br />segala kondisi
+          {/* Kata muncul satu per satu; null = pindah baris. */}
+          {["Gantengin", "di", null, "segala", "kondisi"].map((kata, i) =>
+            kata ? (
+              <Fragment key={i}>{" "}<span className="hero-up inline-block" style={{ animationDelay: `${0.5 + i * 0.2}s` }}>{kata}</span></Fragment>
+            ) : (
+              <br key={i} />
+            ),
+          )}
         </h1>
-        <a href={waLink()} target="_blank" rel="noopener" data-hero-action className="btn mt-7 bg-white px-7 font-bold uppercase tracking-[0.02em] text-ink hover:bg-white/85">
+        <a href={waLink()} target="_blank" rel="noopener" data-hero-action className="hero-up hero-up-late btn mt-7 bg-white px-7 font-bold uppercase tracking-[0.02em] text-ink hover:bg-white/85">
           Booking sekarang
         </a>
       </section>

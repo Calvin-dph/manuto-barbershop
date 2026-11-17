@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Albert_Sans, League_Spartan, Newsreader } from "next/font/google";
+import { Albert_Sans, Geist, Newsreader } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBar from "@/components/MobileBar";
 import { settings } from "@/data/site";
 import "./globals.css";
 
-const spartan = League_Spartan({ subsets: ["latin"], variable: "--font-spartan" });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 const albert = Albert_Sans({ subsets: ["latin"], variable: "--font-albert" });
 const newsreader = Newsreader({ subsets: ["latin"], weight: "500", variable: "--font-newsreader" });
 
@@ -50,12 +50,12 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id" className={`${spartan.variable} ${albert.variable} ${newsreader.variable}`}>
+    <html lang="id" className={`${geist.variable} ${albert.variable} ${newsreader.variable}`}>
       <body className="min-h-dvh">
         <a href="#isi" className="sr-only z-50 bg-ink px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
           Langsung ke isi
         </a>
-        <div aria-hidden className="pole" />
+        <div aria-hidden className="pole pole-load" />
         <Header />
         {/* Dibungkus supaya isi dan footer mengecil bersama saat menu dibuka (lihat Header). */}
         <div id="halaman">
