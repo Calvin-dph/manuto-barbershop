@@ -51,6 +51,7 @@ body {
   --guide-soft: rgb(18 18 18 / 0.045);
 }
 #halaman,
+#halaman > main,
 #halaman section:is(.bg-surface, .bg-brand, .bg-ink),
 #halaman footer {
   /* HP: dua garis saja. */
@@ -58,6 +59,7 @@ body {
 }
 @media (min-width: 640px) {
   #halaman,
+  #halaman > main,
   #halaman section:is(.bg-surface, .bg-brand, .bg-ink),
   #halaman footer {
     /* Posisi dipilih supaya tidak jatuh di tepi kiri/kanan konten pada lebar layar yang umum (1280-1920px). */
@@ -234,4 +236,10 @@ html:has(dialog[open]) {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* Kursor bawaan disembunyikan saat komponen Cursor aktif (hanya mouse). */
+.custom-cursor,
+.custom-cursor * {
+  cursor: none !important;
 }

@@ -1,6 +1,5 @@
 TODO
 - Detail Barberer
-- Enhance Footer
 - Enhace Galery
 - Fitur Hasil Potongan
 - Enhance Kontak

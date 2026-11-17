@@ -13,7 +13,7 @@ export default function BarberGrid() {
             rel="noopener"
             className="card-link photo-mono group"
           >
-            <span className="relative block aspect-[4/5] overflow-hidden bg-surface">
+            <span className="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-surface">
               <Image src={b.foto} alt={`${b.nama}, barber ke-${i + 1}`} fill sizes="50vw" className="object-cover object-[center_85%]" />
             </span>
             <span className="mt-4 block font-display text-[20px] font-bold leading-tight sm:text-[26px]">{b.nama}</span>

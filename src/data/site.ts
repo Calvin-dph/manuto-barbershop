@@ -92,7 +92,7 @@ export const barbers: Barber[] = [
 export const member = {
   harga: 50000,
   periode: "1 tahun",
-  foto: "/photos/kartu-member.jpg",
+  foto: "/photos/kartu-member-v2.jpg",
   benefit: [
     "Diskon 10% untuk semua perawatan rambut",
     "Potong rambut 10x, gratis 1x",

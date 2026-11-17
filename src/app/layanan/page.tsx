@@ -24,7 +24,7 @@ export default function Layanan() {
       </section>
       <section aria-label="Foto produk dan alat" className="wrap grid grid-cols-2 gap-2 pb-20 md:grid-cols-4 md:gap-4 md:pb-28">
         {["produk-1", "produk-2", "meja-cermin", "kursi-cape"].map((n) => (
-          <div key={n} className="relative aspect-square overflow-hidden bg-surface">
+          <div key={n} className="relative aspect-square overflow-hidden rounded-2xl bg-surface">
             <Image src={`/photos/${n}.jpg`} alt={n.startsWith("produk") ? "Produk perawatan rambut di meja barber" : "Meja kerja dan kursi barber Manut'o"} fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover" />
           </div>
         ))}

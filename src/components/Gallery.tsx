@@ -25,7 +25,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
       <ul className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4">
         {photos.map((p, n) => (
           <li key={p.src}>
-            <button type="button" onClick={() => show(n)} className="card-link relative block aspect-[4/5] w-full cursor-zoom-in overflow-hidden bg-surface" aria-label={`Perbesar foto: ${p.alt}`}>
+            <button type="button" onClick={() => show(n)} className="card-link relative block aspect-[4/5] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-surface" aria-label={`Perbesar foto: ${p.alt}`}>
               <Image src={p.src} alt={p.alt} fill sizes="(min-width: 768px) 33vw, 50vw" className="object-cover" />
             </button>
           </li>
@@ -75,7 +75,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
                   onClick={() => setI(n)}
                   aria-label={`Foto ${n + 1}: ${p.alt}`}
                   aria-current={n === i ? "true" : undefined}
-                  className={`relative block size-14 cursor-pointer overflow-hidden transition-opacity ${n === i ? "outline-2 -outline-offset-2 outline-paper" : "opacity-45 hover:opacity-100"}`}
+                  className={`relative block size-14 cursor-pointer overflow-hidden rounded-lg transition-opacity ${n === i ? "outline-2 -outline-offset-2 outline-paper" : "opacity-45 hover:opacity-100"}`}
                 >
                   <Image src={p.src} alt="" fill sizes="56px" className="object-cover" />
                 </button>

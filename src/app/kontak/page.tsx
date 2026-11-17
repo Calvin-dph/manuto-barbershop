@@ -40,7 +40,8 @@ export default function Kontak() {
           />
         </div>
       </section>
-      <section className="border-t border-line bg-surface py-20 md:py-28">
+      {/* Section terakhir berwarna: ikut sudut bulat <main> (lihat layout) supaya tidak menyembul di atas footer. */}
+      <section className="rounded-b-[32px] border-t border-line bg-surface py-20 md:rounded-b-[48px] md:py-28">
         <div className="wrap grid gap-10 md:grid-cols-12">
           <h2 className="h-section md:col-span-4">Pertanyaan yang sering ditanya</h2>
           <dl className="md:col-span-8">

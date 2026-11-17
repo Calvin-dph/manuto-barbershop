@@ -3,6 +3,7 @@ import { Albert_Sans, Geist, Newsreader } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBar from "@/components/MobileBar";
+import Cursor from "@/components/Cursor";
 import { settings } from "@/data/site";
 import "./globals.css";
 
@@ -59,10 +60,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         {/* Dibungkus supaya isi dan footer mengecil bersama saat menu dibuka (lihat Header). */}
         <div id="halaman">
-          <main id="isi">{children}</main>
+          {/* Margin bawah negatif (bukan -mt di footer): footer naik ke balik sudut bulat, tapi margin box footer tetap normal,
+              jadi saat sticky ia tidak bisa terangkat melewati atas #halaman dan menyembul di bawah header. */}
+          <main id="isi" className="relative z-10 -mb-[32px] rounded-b-[32px] bg-paper md:-mb-[48px] md:rounded-b-[48px]">{children}</main>
           <Footer />
         </div>
         <MobileBar />
+        <Cursor />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       </body>
     </html>
