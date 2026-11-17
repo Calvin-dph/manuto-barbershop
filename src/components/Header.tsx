@@ -34,7 +34,9 @@ export default function Header() {
       clearTimeout(timer.current);
       const r = main.getBoundingClientRect();
       // Potong ke bagian yang sedang terlihat, supaya isi di luar layar tidak ikut muncul saat mengecil.
-      const top = Math.max(0, header.current.getBoundingClientRect().bottom - r.top);
+      // Mulai dari tepi atas layar, bukan dari bawah header: header transparan, jadi isi di baliknya (foto hero) ikut terlihat;
+      // kalau ikut dipotong, area itu jadi putih selama animasi tutup.
+      const top = Math.max(0, -r.top);
       const bottom = Math.max(0, r.bottom - innerHeight);
       main.style.cssText = `position:relative;z-index:50;background-color:var(--color-paper);clip-path:inset(${top}px 0 ${bottom}px 0);transform-origin:100% ${innerHeight - r.top}px;transition:transform .6s cubic-bezier(.7,0,.2,1),filter .6s;`;
       main.getBoundingClientRect(); // paksa reflow supaya transisi berjalan
@@ -45,7 +47,12 @@ export default function Header() {
       window.removeEventListener("keydown", esc);
       if (!main) return;
       main.style.transform = main.style.filter = "";
-      timer.current = window.setTimeout(() => (main.style.cssText = ""), 600);
+      // Setelah membesar (0,6 dtk) lepas clip/transform, tapi tetap di atas menu (z-50) sampai menu selesai memudar
+      // (jeda 0,6 + 0,5 dtk); kalau dilepas bersamaan, menu sempat tampil penuh sekejap di atas halaman.
+      timer.current = window.setTimeout(() => {
+        main.style.cssText = "position:relative;z-index:50;background-color:var(--color-paper)";
+        timer.current = window.setTimeout(() => (main.style.cssText = ""), 500);
+      }, 600);
     };
   }, [open]);
 
@@ -99,6 +106,9 @@ export default function Header() {
         aria-label="Menu"
         inert={!open}
         className={`fixed inset-0 z-[35] overflow-y-auto bg-ink pt-24 text-paper transition-opacity duration-500 ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
+        // Saat menutup, menu gelap baru memudar setelah halaman selesai membesar kembali (0,6 dtk, lihat efek di atas);
+        // kalau bersamaan, latar putih body sempat terlihat di sela-selanya.
+        style={{ transitionDelay: open ? "0ms" : "600ms" }}
       >
         <ul className="wrap flex flex-col">
           {navLinks.map((l) => (
