@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/data/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://manutobarbershop.com";
-  return ["", "/layanan", "/barber", "/galeri", "/ulasan", "/kontak"].map((p) => ({ url: base + p }));
+  return ["", "/layanan", "/barber", "/galeri", "/ulasan", "/kontak"].map((p) => ({ url: siteUrl + p }));
 }

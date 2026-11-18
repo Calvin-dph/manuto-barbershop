@@ -24,6 +24,9 @@ export type Review = {
 };
 export type Photo = { src: string; alt: string };
 
+// Domain utama situs; dipakai metadata, JSON-LD, robots, dan sitemap.
+export const siteUrl = "https://manutco.com";
+
 export const settings = {
   nama: "Manut'o Barbershop",
   tagline: "Mens Hair Stylist",

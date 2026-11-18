@@ -5,15 +5,12 @@ import Footer from "@/components/Footer";
 import MobileBar from "@/components/MobileBar";
 import Cursor from "@/components/Cursor";
 import SmoothScroll from "@/components/SmoothScroll";
-import { settings } from "@/data/site";
+import { settings, siteUrl } from "@/data/site";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 const albert = Albert_Sans({ subsets: ["latin"], variable: "--font-albert" });
 const newsreader = Newsreader({ subsets: ["latin"], weight: "500", variable: "--font-newsreader" });
-
-// shortcut: domain belum ada, ganti saat domain asli dibeli.
-const siteUrl = "https://manutobarbershop.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -40,6 +37,9 @@ const jsonLd = {
     postalCode: "50511",
     addressCountry: "ID",
   },
+  // Titik pin Google Maps (settings.mapsUrl).
+  geo: { "@type": "GeoCoordinates", latitude: -7.1232052, longitude: 110.4036602 },
+  hasMap: settings.mapsUrl,
   openingHoursSpecification: [{
     "@type": "OpeningHoursSpecification",
     dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
