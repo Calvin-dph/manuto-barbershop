@@ -25,6 +25,10 @@ html {
   scrollbar-width: thin;
   scrollbar-color: #6a6a66 transparent;
 }
+/* Saat Lenis aktif, ia yang menghaluskan scroll; scroll-behavior smooth bawaan akan bertabrakan dan terasa tersendat. */
+html.lenis {
+  scroll-behavior: auto;
+}
 /* Chrome/Safari lama yang belum mendukung scrollbar-color. */
 ::-webkit-scrollbar {
   width: 6px;
@@ -180,6 +184,15 @@ html:has(dialog[open]) {
 .lightbox-in {
   animation: lightbox-in 0.25s ease;
 }
+/* Lightbox sendiri memudar masuk saat dibuka. */
+@keyframes lightbox-open {
+  from {
+    opacity: 0;
+  }
+}
+.lightbox[open] {
+  animation: lightbox-open 0.3s ease;
+}
 
 /* Hero saat halaman dimuat: foto muncul dari gelap sambil sedikit mengecil, lalu judul dan tombol naik perlahan. */
 @keyframes hero-bg {
@@ -238,8 +251,9 @@ html:has(dialog[open]) {
   }
 }
 
-/* Kursor bawaan disembunyikan saat komponen Cursor aktif (hanya mouse). */
-.custom-cursor,
-.custom-cursor * {
+/* Kursor bawaan disembunyikan saat komponen Cursor aktif (hanya mouse).
+   Kecuali saat dialog modal terbuka: dialog ada di top layer, di atas kursor custom, jadi kursor bawaan dipakai lagi. */
+.custom-cursor:not(:has(dialog[open])),
+.custom-cursor:not(:has(dialog[open])) * {
   cursor: none !important;
 }

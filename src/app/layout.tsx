@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBar from "@/components/MobileBar";
 import Cursor from "@/components/Cursor";
+import SmoothScroll from "@/components/SmoothScroll";
 import { settings } from "@/data/site";
 import "./globals.css";
 
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </div>
         <MobileBar />
         <Cursor />
+        <SmoothScroll />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       </body>
     </html>

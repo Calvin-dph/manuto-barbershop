@@ -8,7 +8,7 @@ export default function SectionHead({ title, line, href, linkLabel, as: H = "h2"
         <div className="flex flex-col gap-2 md:max-w-[420px] md:items-end md:text-right">
           {line && <p className="text-[16px] leading-6 text-muted">{line}</p>}
           {href && (
-            <Link href={href} className="link-draw group inline-flex min-h-11 items-center gap-2 text-[15px]">
+            <Link href={href} target="_blank" className="link-draw group inline-flex min-h-11 items-center gap-2 text-[15px]">
               {linkLabel}
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
             </Link>

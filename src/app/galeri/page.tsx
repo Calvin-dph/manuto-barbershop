@@ -10,9 +10,12 @@ export const metadata: Metadata = {
 
 export default function Galeri() {
   return (
-    <section className="wrap pb-20 pt-14 md:pb-28 md:pt-20">
-      <SectionHead as="h1" title="Galeri" line="Lebih banyak hasil potongan ada di Instagram dan TikTok kami." href={settings.instagram} linkLabel="Buka Instagram" />
-      <Gallery photos={gallery} />
-    </section>
+    // Latar polos menutupi garis vertikal dekoratif dari layout (lihat #halaman di globals.css).
+    <div className="bg-paper">
+      <section className="wrap pb-20 pt-14 md:pb-28 md:pt-20">
+        <SectionHead as="h1" title="Galeri" line="Lebih banyak hasil potongan ada di Instagram dan TikTok kami." href={settings.instagram} linkLabel="Buka Instagram" />
+        <Gallery photos={gallery} />
+      </section>
+    </div>
   );
 }

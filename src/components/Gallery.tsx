@@ -34,23 +34,34 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
       <dialog
         ref={dlg}
         aria-label="Foto galeri"
-        className="m-0 h-dvh max-h-none w-screen max-w-none bg-ink p-0 text-paper [&_:focus-visible]:outline-paper"
+        className="lightbox m-0 h-dvh max-h-none w-screen max-w-none bg-ink p-0 text-paper backdrop:bg-ink [&_:focus-visible]:outline-paper"
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") step(1);
           if (e.key === "ArrowLeft") step(-1);
         }}
       >
         <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between gap-4 py-2 pl-4 pr-2">
-            <p className="label tabular-nums" aria-live="polite">{i + 1} / {photos.length}</p>
-            <button type="button" onClick={() => dlg.current?.close()} className="btn min-h-11 cursor-pointer px-4 hover:bg-white/10">
-              Tutup <span aria-hidden>✕</span>
+          <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+            <p className="label tabular-nums text-paper/70" aria-live="polite">
+              <span className="text-paper">{String(i + 1).padStart(2, "0")}</span> / {String(photos.length).padStart(2, "0")}
+            </p>
+            <button
+              type="button"
+              onClick={() => dlg.current?.close()}
+              aria-label="Tutup"
+              className="flex size-11 cursor-pointer items-center justify-center rounded-full border border-white/20 text-[18px] transition-colors hover:bg-paper hover:text-ink"
+            >
+              <span aria-hidden>✕</span>
             </button>
+          </div>
+          {/* Garis progres tipis: posisi foto aktif di antara semua foto. */}
+          <div aria-hidden className="h-px bg-white/10">
+            <div className="h-full bg-paper transition-[width] duration-500 ease-out" style={{ width: `${((i + 1) / photos.length) * 100}%` }} />
           </div>
 
           {/* Sepertiga kiri dan kanan foto adalah tombol; di HP bisa juga digeser. */}
           <div
-            className="relative min-h-0 flex-1"
+            className="relative min-h-0 flex-1 sm:mx-24 sm:my-6"
             onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
             onTouchEnd={(e) => {
               const dx = e.changedTouches[0].clientX - touchX.current;
@@ -58,32 +69,44 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
             }}
           >
             <Image key={i} src={photos[i].src} alt={photos[i].alt} fill sizes="100vw" className="lightbox-in object-contain" />
-            <button type="button" onClick={() => step(-1)} aria-label="Foto sebelumnya" className="group absolute inset-y-0 left-0 flex w-1/3 cursor-pointer items-center px-2 sm:px-6">
-              <span aria-hidden className="flex size-11 items-center justify-center bg-paper text-[20px] text-ink transition-transform group-hover:-translate-x-1">←</span>
-            </button>
-            <button type="button" onClick={() => step(1)} aria-label="Foto berikutnya" className="group absolute inset-y-0 right-0 flex w-1/3 cursor-pointer items-center justify-end px-2 sm:px-6">
-              <span aria-hidden className="flex size-11 items-center justify-center bg-paper text-[20px] text-ink transition-transform group-hover:translate-x-1">→</span>
-            </button>
           </div>
+          {/* Tombol panah di luar area foto (desktop), supaya tidak menutupi foto. Di HP: geser foto. */}
+          <button type="button" onClick={() => step(-1)} aria-label="Foto sebelumnya" className="group absolute left-6 top-1/2 hidden size-14 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-paper text-ink shadow-lg shadow-black/30 transition-transform duration-300 hover:scale-110 sm:flex">
+            <Arrow className="rotate-180 transition-transform duration-300 group-hover:-translate-x-0.5" />
+          </button>
+          <button type="button" onClick={() => step(1)} aria-label="Foto berikutnya" className="group absolute right-6 top-1/2 hidden size-14 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-paper text-ink shadow-lg shadow-black/30 transition-transform duration-300 hover:scale-110 sm:flex">
+            <Arrow className="transition-transform duration-300 group-hover:translate-x-0.5" />
+          </button>
 
-          <p className="px-4 pt-3 text-center text-[15px] leading-6 text-paper/80">{photos[i].alt}</p>
-          <ul ref={strip} className="mx-auto flex w-fit max-w-full gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none]">
-            {photos.map((p, n) => (
-              <li key={p.src} className="shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setI(n)}
-                  aria-label={`Foto ${n + 1}: ${p.alt}`}
-                  aria-current={n === i ? "true" : undefined}
-                  className={`relative block size-14 cursor-pointer overflow-hidden rounded-lg transition-opacity ${n === i ? "outline-2 -outline-offset-2 outline-paper" : "opacity-45 hover:opacity-100"}`}
-                >
-                  <Image src={p.src} alt="" fill sizes="56px" className="object-cover" />
-                </button>
-              </li>
-            ))}
-          </ul>
+          <div className="border-t border-white/10 px-4 pb-3 pt-4 sm:px-6">
+            <p className="mx-auto max-w-[60ch] text-center text-[15px] leading-6 text-paper/80">{photos[i].alt}</p>
+            <ul ref={strip} className="mx-auto mt-3 flex w-fit max-w-full gap-2 overflow-x-auto p-1 [scrollbar-width:none]">
+              {photos.map((p, n) => (
+                <li key={p.src} className="shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setI(n)}
+                    aria-label={`Foto ${n + 1}: ${p.alt}`}
+                    aria-current={n === i ? "true" : undefined}
+                    className={`relative block size-14 cursor-pointer overflow-hidden rounded-xl transition-all duration-300 ${n === i ? "ring-2 ring-paper ring-offset-2 ring-offset-ink" : "opacity-40 grayscale hover:opacity-100 hover:grayscale-0"}`}
+                  >
+                    <Image src={p.src} alt="" fill sizes="56px" className="object-cover" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </dialog>
     </>
+  );
+}
+
+// Panah ke kanan; diputar 180° untuk arah kiri.
+function Arrow({ className }: { className?: string }) {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={`size-6 ${className ?? ""}`}>
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
   );
 }

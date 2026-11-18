@@ -14,6 +14,16 @@ export function Wordmark() {
   );
 }
 
+// Potong halaman ke bagian yang terlihat di layar (top = jarak tepi atas halaman dari atas layar), supaya isi di luar layar
+// tidak ikut muncul saat mengecil. Mulai dari tepi atas layar, bukan dari bawah header: header transparan, jadi isi di
+// baliknya (foto hero) ikut terlihat; kalau ikut dipotong, area itu jadi putih selama animasi tutup.
+// Potongan bawah memakai 100%, bukan tinggi dalam px, supaya tetap benar saat isi berganti ke halaman yang lebih pendek
+// waktu pindah halaman dari menu (kalau px, seluruh halaman baru ikut terpotong dan hilang selama animasi).
+function fitToViewport(main: HTMLElement, top: number) {
+  main.style.clipPath = `inset(${Math.max(0, -top)}px 0 max(0px, calc(100% - ${innerHeight - top}px)) 0)`;
+  main.style.transformOrigin = `100% ${innerHeight - top}px`;
+}
+
 export default function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
@@ -21,6 +31,12 @@ export default function Header() {
   const [hidden, setHidden] = useState(false);
   const header = useRef<HTMLElement>(null);
   const timer = useRef(0);
+  // Menu ditutup karena link diklik (pindah halaman), bukan karena tombol/Escape.
+  const toTop = useRef(false);
+  const go = () => {
+    if (open) toTop.current = true;
+    setOpen(false);
+  };
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -33,12 +49,8 @@ export default function Header() {
     if (main && header.current) {
       clearTimeout(timer.current);
       const r = main.getBoundingClientRect();
-      // Potong ke bagian yang sedang terlihat, supaya isi di luar layar tidak ikut muncul saat mengecil.
-      // Mulai dari tepi atas layar, bukan dari bawah header: header transparan, jadi isi di baliknya (foto hero) ikut terlihat;
-      // kalau ikut dipotong, area itu jadi putih selama animasi tutup.
-      const top = Math.max(0, -r.top);
-      const bottom = Math.max(0, r.bottom - innerHeight);
-      main.style.cssText = `position:relative;z-index:50;background-color:var(--color-paper);clip-path:inset(${top}px 0 ${bottom}px 0);transform-origin:100% ${innerHeight - r.top}px;transition:transform .6s cubic-bezier(.7,0,.2,1),filter .6s;`;
+      main.style.cssText = `position:relative;z-index:50;background-color:var(--color-paper);transition:transform .6s cubic-bezier(.7,0,.2,1),filter .6s;`;
+      fitToViewport(main, r.top);
       main.getBoundingClientRect(); // paksa reflow supaya transisi berjalan
       main.style.transform = "scale(.5)";
       main.style.filter = "brightness(.6)";
@@ -46,6 +58,14 @@ export default function Header() {
     return () => {
       window.removeEventListener("keydown", esc);
       if (!main) return;
+      // Pindah halaman: gulir ke atas sekarang. Kalau menunggu Next, ia melihat halaman yang masih mengecil (tepi atasnya
+      // tampak di layar) lalu menganggap tidak perlu scroll, sehingga halaman baru terbuka di posisi scroll lama.
+      // offsetTop dipakai karena tidak terpengaruh transform yang sedang berjalan.
+      if (toTop.current) {
+        toTop.current = false;
+        scrollTo({ top: 0, behavior: "instant" });
+        fitToViewport(main, main.offsetTop);
+      }
       main.style.transform = main.style.filter = "";
       // Setelah membesar (0,6 dtk) lepas clip/transform, tapi tetap di atas menu (z-50) sampai menu selesai memudar
       // (jeda 0,6 + 0,5 dtk); kalau dilepas bersamaan, menu sempat tampil penuh sekejap di atas halaman.
@@ -92,7 +112,7 @@ export default function Header() {
               <span className={`absolute left-0 block h-0.5 w-6 bg-current transition ${open ? "top-1.5 -rotate-45" : "top-3"}`} />
             </span>
           </button>
-          <Link href="/" aria-label="Manut'o Barbershop, ke beranda" className="flex min-h-11 items-center" onClick={() => setOpen(false)}>
+          <Link href="/" aria-label="Manut'o Barbershop, ke beranda" className="flex min-h-11 items-center" onClick={go}>
             <Wordmark />
           </Link>
           <a href={waLink()} target="_blank" rel="noopener" className="flex min-h-11 items-center justify-self-end font-display text-[17px] font-bold uppercase tracking-[0.01em]">
@@ -103,6 +123,7 @@ export default function Header() {
       {/* Di bawah header (z-40) dan di bawah halaman yang mengecil (z-50), di atas isi halaman dan bar booking HP (z-30). */}
       <nav
         id="menu-hp"
+        data-lenis-prevent
         aria-label="Menu"
         inert={!open}
         className={`fixed inset-0 z-[35] overflow-y-auto bg-ink pt-24 text-paper transition-opacity duration-500 ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
@@ -116,7 +137,7 @@ export default function Header() {
               <Link
                 href={l.href}
                 className="h-display block py-2 text-[clamp(32px,7vw,104px)] uppercase transition-colors hover:text-brand-light"
-                onClick={() => setOpen(false)}
+                onClick={go}
                 aria-current={path === l.href ? "page" : undefined}
               >
                 {l.label}
