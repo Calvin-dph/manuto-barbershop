@@ -25,7 +25,7 @@ export type Review = {
 export type Photo = { src: string; alt: string };
 
 // Domain utama situs; dipakai metadata, JSON-LD, robots, dan sitemap.
-export const siteUrl = "https://manutco.com";
+export const siteUrl = "https://manutobarber.com";
 
 export const settings = {
   nama: "Manut'o Barbershop",
@@ -77,8 +77,10 @@ export const services: Service[] = [
   s("perawatan", 2, "Creambath", 50000),
   s("perawatan", 3, "Bleaching, Highlight", 75000, true),
   s("perawatan", 4, "Bleaching Full", 100000, true),
-  s("perawatan", 5, "Perming, Keratin", 200000),
-  s("perawatan", 6, "Down Perm", 150000),
+  s("perawatan", 5, "Perming", 200000),
+  s("perawatan", 6, "Keratin", 265000),
+  s("perawatan", 7, "Down Perm", 150000),
+  s("perawatan", 8, "Wave Perm", 165000),
   s("styling", 1, "Semir Rambut Warna Gelap", 60000),
   s("styling", 2, "Semir Rambut Warna Terang", 60000),
   s("styling", 3, "Vitamin", 5000),
