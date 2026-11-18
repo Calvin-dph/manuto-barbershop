@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { navLinks } from "./nav";
 import OpenNow from "./OpenNow";
+import FooterCurtain from "./FooterCurtain";
 import FooterName from "./FooterName";
 import { settings, waLink } from "@/data/site";
 
@@ -10,10 +11,12 @@ const jam = `${settings.jamBuka.replace(":", ".")}–${settings.jamTutup.replace
 // Footer "kunjungi": alamat besar sebagai isi utama, kontak di kanan, lalu baris menu dan nama toko selebar layar.
 // pt sebesar radius: <main> menarik footer ke atas (-mb di layout) supaya warna gelapnya mengisi sudut bulat <main>.
 // Curtain reveal: footer menempel di dasar layar di belakang <main>, lalu tersingkap saat isi digulir habis.
-// Hanya saat layar cukup tinggi untuk memuat seluruh footer; kalau tidak, bagian atasnya tak pernah terlihat.
+// bottom = min(0, tinggi layar - tinggi footer): di layar pendek footer menempel dengan tepi atas di atas layar,
+// supaya seluruhnya tetap bisa digulir terlihat (dengan bottom 0, bagian atas footer yang tinggi tak pernah terlihat).
 export default function Footer() {
   return (
-    <footer data-cursor-glow className="overflow-hidden bg-ink pb-20 pt-[32px] text-paper sm:pb-0 md:pt-[48px] [@media(min-width:768px)_and_(min-height:820px)]:sticky [@media(min-width:768px)_and_(min-height:820px)]:bottom-0">
+    <footer data-cursor-glow className="overflow-hidden bg-ink pb-20 pt-[32px] text-paper sm:pb-0 md:pt-[48px] md:sticky md:bottom-[min(0px,calc(100dvh-var(--footer-h,0px)))]">
+      <FooterCurtain />
       <div className="wrap grid gap-12 py-16 md:grid-cols-12 md:gap-10 md:py-20">
         <div className="md:col-span-7">
           <p className="label text-brand-light">Datang langsung</p>
